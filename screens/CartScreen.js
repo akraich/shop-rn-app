@@ -1,0 +1,79 @@
+import React from "react";
+
+import { useSelector } from "react-redux";
+
+import { View, Text, Button, FlatList, StyleSheet } from "react-native";
+import Colors from "../constants/colors";
+
+import CartItem from "../components/CartItem";
+
+const CartScreen = props => {
+  const totalPrice = useSelector(state => state.cart.totalPrice);
+  const cartItems = useSelector(state => {
+    const transformedCartItems = [];
+    for (let key in state.cart.items) {
+      transformedCartItems.push({
+        productId: key,
+        productTitle: state.cart.items[key].productTitle,
+        productPrice: state.cart.items[key].productPrice,
+        quantity: state.cart.items[key].quantity,
+        sum: state.cart.items[key].sum
+      });
+    }
+    return transformedCartItems;
+  });
+  return (
+    <View style={styles.screen}>
+      <View style={styles.summary}>
+        <Text style={styles.summaryText}>
+          Total: <Text style={styles.amount}>${totalPrice.toFixed(2)}</Text>
+        </Text>
+        <Button
+          color={Colors.accent}
+          title="Order now"
+          disabled={cartItems.length === 0}
+        />
+      </View>
+      <FlatList
+        data={cartItems}
+        keyExtractor={item => item.productId}
+        renderItem={dataItem => (
+          <CartItem {...dataItem.item} onRemove={() => {}} />
+        )}
+      />
+    </View>
+  );
+};
+
+CartScreen.navigationOptions = {
+  headerTitle: "Cart"
+};
+
+const styles = StyleSheet.create({
+  screen: {
+    margin: 20
+  },
+  summary: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 10,
+    padding: 10,
+    shadowColor: "black",
+    shadowOpacity: 0.26,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+    borderRadius: 10,
+    backgroundColor: "white"
+  },
+  summaryText: {
+    fontSize: 18
+  },
+  amount: {
+    fontFamily: "open-sans-bold",
+    color: Colors.accent
+  }
+});
+
+export default CartScreen;

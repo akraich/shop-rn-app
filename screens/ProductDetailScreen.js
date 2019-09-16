@@ -1,20 +1,29 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { View, Text, Image, Button, StyleSheet } from "react-native";
 import Colors from "../constants/colors";
+
+import * as cartActions from "../store/actions/cart";
 
 const ProductDetailScreen = props => {
   const productId = props.navigation.getParam("productId");
   const selectedProduct = useSelector(state =>
     state.products.availableProducts.find(product => product.id === productId)
   );
+  const dispatch = useDispatch();
   return (
     <View>
       <Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
       <View style={styles.actions}>
-        <Button title="Add to cart" color={Colors.primary} />
+        <Button
+          title="Add to cart"
+          color={Colors.primary}
+          onPress={() => {
+            dispatch(cartActions.addToCart(selectedProduct));
+          }}
+        />
       </View>
       <Text style={styles.title}>${selectedProduct.price}</Text>
       <Text style={styles.description}>{selectedProduct.description}</Text>

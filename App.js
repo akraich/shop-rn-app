@@ -11,12 +11,17 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 
 import productsReducer from "./store/reducers/products";
+import cartReducer from "./store/reducers/cart";
 
 const reducer = combineReducers({
-  products: productsReducer
+  products: productsReducer,
+  cart: cartReducer
 });
 
-const store = createStore(reducer);
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 const fetchFonts = () => {
   return Font.loadAsync({
