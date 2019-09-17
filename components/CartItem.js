@@ -18,13 +18,18 @@ const CartItem = props => {
       </View>
       <View style={styles.itemData}>
         <Text style={styles.mainText}>${props.sum.toFixed(2)}</Text>
-        <TouchableOpacity style={styles.deleteButton} onPress={props.onRemove}>
-          <Ionicons
-            name={Platform.OS === "android" ? "md-trash" : "ios-trash"}
-            size={23}
-            color="red"
-          />
-        </TouchableOpacity>
+        {props.deletable && (
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={props.onRemove}
+          >
+            <Ionicons
+              name={Platform.OS === "android" ? "md-trash" : "ios-trash"}
+              size={23}
+              color="red"
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -40,6 +45,7 @@ const styles = StyleSheet.create({
   },
   itemData: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center"
   },
   quantity: {

@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
     case ADD_ORDER:
       const newOrder = new order(
         new Date().toString(),
-        action.oderData.items,
+        action.orderData.items,
         action.orderData.amount,
         new Date()
       );
