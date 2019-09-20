@@ -18,7 +18,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         availableProducts: action.products,
-        userProducts: action.products.filter(product => product.id === "u1")
+        userProducts: action.products.filter(
+          product => product.ownerId === "u1"
+        )
       };
     case DELETE_PRODUCT:
       return {

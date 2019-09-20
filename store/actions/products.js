@@ -39,9 +39,14 @@ export const fetchProducts = () => {
 };
 
 export const deleteProduct = productId => {
-  return {
-    type: DELETE_PRODUCT,
-    pid: productId
+  return async dispatch => {
+    await axios.delete(
+      `https://rn-myshop-app.firebaseio.com/products/${productId}.json`
+    );
+    dispatch({
+      type: DELETE_PRODUCT,
+      pid: productId
+    });
   };
 };
 
@@ -71,13 +76,23 @@ export const createProduct = (title, imageUrl, price, description) => {
 };
 
 export const updateProduct = (id, title, imageUrl, description) => {
-  return {
-    type: UPDATE_PRODUCT,
-    pid: id,
-    productData: {
-      title,
-      imageUrl,
-      description
-    }
+  return async dispatch => {
+    await axios.patch(
+      `https://rn-myshop-app.firebaseio.com/products/${id}.json`,
+      {
+        title,
+        imageUrl,
+        description
+      }
+    );
+    dispatch({
+      type: UPDATE_PRODUCT,
+      pid: id,
+      productData: {
+        title,
+        imageUrl,
+        description
+      }
+    });
   };
 };
