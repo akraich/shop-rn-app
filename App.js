@@ -3,7 +3,7 @@ import ReduxThunk from "redux-thunk";
 
 import { StyleSheet } from "react-native";
 
-import ShopNavigator from "./navigation/ShopNavigator";
+import NavigationContainer from "./navigation/NavigationContainer";
 
 import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 
@@ -15,13 +15,15 @@ import { AppLoading } from "expo";
 import productsReducer from "./store/reducers/products";
 import cartReducer from "./store/reducers/cart";
 import ordersReducer from "./store/reducers/orders";
+import authReducer from "./store/reducers/auth";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const reducer = combineReducers({
   products: productsReducer,
   cart: cartReducer,
-  orders: ordersReducer
+  orders: ordersReducer,
+  auth: authReducer
 });
 
 const store = createStore(
@@ -50,7 +52,7 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <ShopNavigator />
+      <NavigationContainer />
     </Provider>
   );
 }

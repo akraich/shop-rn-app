@@ -4,10 +4,12 @@ export const ADD_ORDER = "ADD_ORDER";
 export const FETCH_ORDERS = "FETCH_ORDERS";
 
 export const addOrder = (items, totalAmount) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const date = new Date();
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const response = await axios.post(
-      "https://rn-myshop-app.firebaseio.com/orders/u1.json",
+      `https://rn-myshop-app.firebaseio.com/orders/${userId}.json?auth=${token}`,
       {
         items: items,
         amount: totalAmount,
@@ -27,9 +29,10 @@ export const addOrder = (items, totalAmount) => {
 };
 
 export const fetchOrders = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     const response = await axios.get(
-      "https://rn-myshop-app.firebaseio.com/orders/u1.json"
+      `https://rn-myshop-app.firebaseio.com/orders/${userId}.json`
     );
     let transformedOrders = [];
     let order;
